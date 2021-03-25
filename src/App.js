@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import Header from './components/Header'
+import NavContainer from './containers/NavCont'
+import ReadContainer from './containers/ReadCont'
+import ControlContainer from './containers/ControlCont'
+import CreateContainer from './containers/Create'
+import { connect } from 'react-redux'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  render() {
+    var article = null;
+    if(this.props.mode === 'READ'){
+      article = <ReadContainer />
+    } else if (this.props.mode === 'WELCOME'){
+      article = <ReadContainer />
+    } else if (this.props.mode === 'CREATE'){
+      article = <CreateContainer />
+    }
+    
+    return (
+      <div className="App">
+        <Header />
+        <NavContainer />
+        <ControlContainer />
+        {article}
+      </div>
+    );
+  }
 }
 
-export default App;
+export default connect(
+  (state) => {
+    return {
+      mode:state.mode
+    }
+  }
+)(App);
