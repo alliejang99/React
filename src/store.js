@@ -8,6 +8,7 @@ var initState = {
     desc: 'Hello, WEB'
   },
   selected_content_id: 1,
+  max_content_id: 3,
   contents: [
     {id: 1, title: 'HTML', desc: 'HTML is for Information'},
     {id: 2, title: 'CSS', desc: 'CSS is for Design'},
@@ -25,9 +26,31 @@ function reducer(state=initState, action){
   if(action.type === 'CREATE'){
     return {...state, mode:'CREATE'}
   }
+  if(action.type === 'CREATE_PROCESS'){
+    var newId = state.max_content_id + 1;
+    var newContents = [
+      ...state.contents,
+      {
+        id:newId,
+        titl:action.title,
+        desc:action.desc
+      }
+    ]; // 컨텐츠 복제
+    return {
+      ...state,
+      contents: newContents,
+      max_content_id:newId,
+      mode: 'READ',
+      selected_content_id:newId
+    }
+  }
   return state;
 }
 export default createStore(
   reducer,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
+
+
+// https://www.youtube.com/watch?v=Cwwsv_OaWhM
+// 1:20:40
